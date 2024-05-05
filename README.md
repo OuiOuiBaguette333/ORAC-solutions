@@ -1,2 +1,2 @@
 # ORAC-solutions
-solutions for problems on ORAC
+For MGS informatics club, please do not copy, use the solutions if you are really stuck
