@@ -1,65 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
-using ll = long long;
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-#define pb push_back
-#define sz(x) (int)(x).size()
 
-#define int ll
-signed main() {
-        ios_base::sync_with_stdio(false);
-        cin.tie(nullptr);
- 
+int p[200005];
+int main() {
+        cin.tie(0)->sync_with_stdio(false);
+        set<pair<int, int>> st;
         int N;
         cin >> N;
-        vector<int> A(N);
-        multiset<pair<int, int>> S;
-        for (int i = 0; i < N; ++i) {
-                cin >> A[i];
-                S.insert(make_pair(A[i], i + 1));
+        for (int i = 1; i <= N; i++) {
+                cin >> p[i];
+                st.insert({p[i], i});
         }
- 
-        
         int Q;
         cin >> Q;
- 
         while (Q--) {
-                int T;
-                cin >> T;
- 
-                if (T == 1) {
-                        int a;
-                        cin >> a;
-                        auto[j, k] = *S.begin();
-                        auto[J, K] = *S.rbegin();
-                        if (a == k || a == K) {
-                                if (k + K - 2 * a > 0) {
-                                        cout << N;
-                                } else cout << 1;
-                        } else if (abs(j - A[a - 1]) == abs(J - A[a - 1]) && (k < a) != (K < a)) {
-                                cout << -1;
-                        } else {
-                                int p = -1;
-                                if (abs(j - A[a - 1]) > abs(J - A[a - 1])) {
-                                        p = k;
-                                } else p = K;
-                                if (p - a > 0) {
-                                        cout << N;
-                                } else cout << 1;
-                        }
-                        cout << '\n';
-                }
-                if (T == 2) {
-                        int a, b;
-                        cin >> a >> b;
-                        --a;
-                        S.erase({A[a], a + 1});
-                        A[a] = b;
-                        S.insert(make_pair(A[a], a + 1));
+                int t;
+                cin >> t;
+                if (t == 1) {
+                        int s;
+                        cin >> s;
+                        auto [mn, a] = *st.begin();
+                        auto [mx, b] = *st.rbegin();
+                        if (s == a || s == b) cout << (a + b - 2 * s > 0 ? N : 1) << '\n';
+                        else if (abs(mn - p[s]) == abs(mx - p[s]) && (a < s) != (b < s)) cout << "-1\n";
+                        else cout << ((abs(mn - p[s]) > abs(mx - p[s]) ? a : b) - s > 0 ? N : 1) << '\n';
+                } else {
+                        int s, x;
+                        cin >> s >> x;
+                        st.erase({p[s], s});
+                        p[s] = x;
+                        st.insert({p[s], s});
                 }
         }
- 
- 
         return 0;
 }
